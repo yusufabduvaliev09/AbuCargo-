@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Abu Cargo — Вход / Регистрация</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">Abu Cargo</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card auth-card" id="registerCard">
+      <h2>Регистрация</h2>
+      <label>ФИО<input id="reg_fullname" placeholder="Фамилия Имя Отчество"></label>
+      <label>Телефон<input id="reg_phone" placeholder="+996500123456"></label>
+      <label>Пароль<input id="reg_password" type="password" placeholder="Пароль"></label>
+      <label>ПВЗ
+        <select id="reg_pvz">
+          <option>Нариман</option>
+          <option>Жийдалик УПТК</option>
+          <option>Достук</option>
+        </select>
+      </label>
+      <div class="row">
+        <button class="btn primary" id="btnRegister">Зарегистрироваться</button>
+        <button class="btn ghost" onclick="showLogin()">Уже есть аккаунт</button>
+      </div>
+      <p class="muted small">После регистрации создаётся персональный код (AC######).</p>
+    </div>
+
+    <div class="card auth-card hidden" id="loginCard">
+      <h2>Вход</h2>
+      <label>Телефон<input id="login_phone" placeholder="+996500123456"></label>
+      <label>Пароль<input id="login_password" type="password" placeholder="Пароль"></label>
+      <div class="row">
+        <button class="btn primary" id="btnLogin">Войти</button>
+        <button class="btn ghost" onclick="showRegister()">Регистрация</button>
+      </div>
+      <p class="muted small">Для админа: используйте телефон, который зарегистрирован как admin в Firebase.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container muted small">© Abu Cargo</div>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js"></script>
+
+  <!-- конфиг — вставь свой firebaseConfig в этот файл -->
+  <script src="js/firebase-config.js"></script>
+
+  <!-- логика -->
+  <script src="js/app.js"></script>
+</body>
+  </html>
