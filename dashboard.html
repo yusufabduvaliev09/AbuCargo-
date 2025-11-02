@@ -1,71 +1,66 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Abu Cargo — Личный кабинет</title>
-  <link rel="stylesheet" href="css/styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abu Cargo - Личный кабинет</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="logo">Abu Cargo</div>
-      <div id="topMenu">
-        <button class="btn ghost" onclick="goHome()">Главная</button>
-        <button class="btn ghost" onclick="logout()">Выйти</button>
-      </div>
+    <div class="dashboard">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="assets/logo.png" alt="Abu Cargo Logo">
+                    <span>Abu Cargo</span>
+                </div>
+                <nav class="navigation">
+                    <button class="menu-toggle">☰</button>
+                    <ul class="nav-menu">
+                        <li><a href="#main" class="active">Главный</a></li>
+                        <li><a href="#in-transit">В дороге</a></li>
+                        <li><a href="#kyrgyzstan-warehouse">Склад Кыргызстан</a></li>
+                        <li><a href="#profile">Профиль</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section id="main" class="content-section active">
+                <h2>Главный раздел</h2>
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <h3>Посылки в пути</h3>
+                        <span class="stat-number">5</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>На складе</h3>
+                        <span class="stat-number">12</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Получено</h3>
+                        <span class="stat-number">23</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="in-transit" class="content-section">
+                <h2>В дороге</h2>
+                <div class="packages-list">
+                    <!-- Список посылок в пути -->
+                </div>
+            </section>
+
+            <section id="kyrgyzstan-warehouse" class="content-section">
+                <h2>Склад Кыргызстан</h2>
+                <div class="warehouse-info">
+                    <!-- Информация о складе -->
+                </div>
+            </section>
+        </main>
     </div>
-  </header>
 
-  <main class="container">
-    <div class="card">
-      <div class="profile-top">
-        <h2>Abu Cargo — твой код: <span id="userCode" class="code"></span></h2>
-        <div class="muted">Адрес склада в Китае: <strong>Отдел код, г. Гуанчжоу</strong></div>
-        <div class="muted">ПВЗ: <span id="userPvz"></span></div>
-      </div>
-    </div>
-
-    <div class="card" id="profileCard">
-      <h3>Личные данные</h3>
-      <label>ФИО<input id="profile_fullname"></label>
-      <label>Телефон<input id="profile_phone"></label>
-      <label>ПВЗ<select id="profile_pvz">
-        <option>Нариман</option>
-        <option>Жийдалик УПТК</option>
-        <option>Достук</option>
-      </select></label>
-      <div class="row">
-        <button class="btn primary" id="btnSaveProfile">Сохранить</button>
-        <button class="btn ghost" onclick="resetProfile()">Сброс</button>
-      </div>
-    </div>
-
-    <div class="card" id="passwordCard">
-      <h3>Изменить пароль</h3>
-      <label>Новый пароль<input id="profile_newpass" type="password"></label>
-      <label>Повтор<input id="profile_newpass2" type="password"></label>
-      <div class="row">
-        <button class="btn primary" id="btnChangePass">Изменить пароль</button>
-      </div>
-    </div>
-
-    <div class="card" id="productsCard">
-      <h3>Статус товаров</h3>
-      <table class="table">
-        <thead><tr><th>Трек</th><th>Название</th><th>Статус</th></tr></thead>
-        <tbody id="productsTbody"></tbody>
-      </table>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container muted small">© Abu Cargo</div>
-  </footer>
-
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js"></script>
-  <script src="js/firebase-config.js"></script>
-  <script src="js/app.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
