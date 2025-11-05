@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // === 🔑 ВСТАВЬ СВОЙ ТОКЕН ===
-const TOKEN = "ВАШ_ТОКЕН_БОТА";
+const TOKEN = "8144352720:AAEoGHZv9ngCzwQqeEo_OdnuA-BfMtsEtZM";
 
 // === Используем polling для проверки работы ===
 const bot = new TelegramBot(TOKEN, { polling: true });
