@@ -7,74 +7,66 @@ const app = express();
 app.use(bodyParser.json());
 
 // === 🔑 ВСТАВЬ СВОЙ ТОКЕН ===
-const TOKEN = "8144352720:AAEoGHZv9ngCzwQqeEo_OdnuA-BfMtsEtZM";
-const bot = new TelegramBot(TOKEN, { polling: false }); // Webhook, polling отключен
+const TOKEN = "ВАШ_ТОКЕН_БОТА";
 
-// === ⚙️ 1. Endpoint /webhook для сообщений от Telegram ===
-app.post("/webhook", async (req, res) => {
-  try {
-    const msg = req.body.message;
-    if (!msg) return res.sendStatus(200);
+// === Используем polling для проверки работы ===
+const bot = new TelegramBot(TOKEN, { polling: true });
 
-    const chatId = msg.chat.id;
-    const text = msg.text || "";
-    const firstName = msg.from.first_name || "друг";
+// === 1️⃣ Команда /start ===
+bot.onText(/\/start/, (msg) => {
+  const chatId = msg.chat.id;
+  const firstName = msg.from.first_name || "друг";
 
-    // Команда /start
-    if (text === "/start") {
-      const registerUrl = `https://abucargo.lovable.app/register?tg_id=${chatId}`;
-      const options = {
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: "💬 Написать менеджеру", url: "https://wa.me/996997111118" }],
-            [{ text: "📝 Пройти регистрацию", url: registerUrl }],
-          ],
-        },
-      };
+  // Ссылка на регистрацию с tg_id
+  const registerUrl = `https://abucargo.lovable.app/register?tg_id=${chatId}`;
 
-      const message = `
+  const options = {
+    reply_markup: {
+      inline_keyboard: [
+        [{ text: "💬 Написать менеджеру", url: "https://wa.me/996997111118" }],
+        [{ text: "📝 Пройти регистрацию", url: registerUrl }],
+      ],
+    },
+  };
+
+  const text = `
 👋 Привет, ${firstName}!
 Я чат-бот карго-компании *ABU Cargo*.
 
 Я помогу вам получить персональный код и правильно заполнить адрес склада в Китае 🇨🇳
 
 С уважением, команда ABU Cargo🧡
-      `;
+  `;
 
-      await bot.sendMessage(chatId, message, {
-        parse_mode: "Markdown",
-        reply_markup: options.reply_markup,
-      });
-    }
-
-    res.sendStatus(200);
-  } catch (err) {
-    console.error("Ошибка webhook:", err);
-    res.sendStatus(500);
-  }
+  bot.sendMessage(chatId, text, {
+    parse_mode: "Markdown",
+    reply_markup: options.reply_markup,
+  });
 });
 
-// === ⚙️ 2. API /notify: сайт сообщает о регистрации ===
+// === 2️⃣ Эндпоинт для получения данных с сайта ===
 app.post("/notify", async (req, res) => {
   try {
     const { telegramId, fio, code, phone, pvz } = req.body;
 
-    if (!telegramId) return res.status(400).send("Нет telegramId пользователя");
+    if (!telegramId) {
+      return res.status(400).send("Нет telegramId пользователя");
+    }
 
-    // Определяем номер менеджера по выбранному ПВЗ
-    let pvzNumber = "+996997111118";
+    // Номер менеджера по ПВЗ
+    let pvzNumber = "+996997111118"; // по умолчанию
     if (pvz === "Нариман и Достук") pvzNumber = "+996997111118";
     else if (pvz === "Жийдалик УПТК") pvzNumber = "+996558105551";
 
+    // Ссылка на личный кабинет
     const cabinetUrl = `https://abucargo.lovable.app/profile?tg_id=${telegramId}`;
     const options = {
       reply_markup: {
-        inline_keyboard: [
-          [{ text: "👤 Мой личный кабинет", url: cabinetUrl }],
-        ],
+        inline_keyboard: [[{ text: "👤 Мой личный кабинет", url: cabinetUrl }]],
       },
     };
 
+    // Сообщение пользователю
     const message = `
 🎉 *Регистрация прошла успешно!* 🎉
 Спасибо, что подписались!
@@ -92,7 +84,7 @@ app.post("/notify", async (req, res) => {
 15727306315
 浙江省金华市义乌市北苑街道春晗二区36栋好运国际货运5697库
 入仓号: 御玺${code}
-    `;
+`;
 
     await bot.sendMessage(telegramId, message, {
       parse_mode: "Markdown",
@@ -101,16 +93,16 @@ app.post("/notify", async (req, res) => {
 
     res.send("✅ Сообщение пользователю отправлено");
   } catch (err) {
-    console.error("Ошибка /notify:", err);
+    console.error("❌ Ошибка при отправке:", err);
     res.status(500).send("Ошибка сервера");
   }
 });
 
-// === ⚙️ 3. Проверка статуса сервера ===
+// === 3️⃣ Проверка сервера ===
 app.get("/", (req, res) => {
   res.send("🤖 ABU Cargo Telegram Bot работает!");
 });
 
-// === ⚙️ 4. Запуск сервера ===
+// === 4️⃣ Запуск сервера ===
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Сервер запущен на порту ${PORT}`));
