@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // === 🔑 ВСТАВЬ СВОЙ ТОКЕН ===
-const TOKEN = "8144352720:AAHSDUaIincHvEH2YEAoU5_yl32r-H2_uzs";
+const TOKEN = "8144352720:AAEoGHZv9ngCzwQqeEo_OdnuA-BfMtsEtZM";
 const bot = new TelegramBot(TOKEN);
 
 // === ⚙️ 1. Команда /start ===
